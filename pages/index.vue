@@ -16,6 +16,10 @@
         <div class="my-5">
           <a href="https://smartsales/auth-sso" class="btn">https://smartsales/auth-sso</a>
         </div>
+
+        <div class="my-5">
+          <a href="https://smartsales.com" class="btn">https://smartsales.com</a>
+        </div>
       </div>
     </div>
 </template>
