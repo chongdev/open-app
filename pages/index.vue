@@ -34,9 +34,7 @@
       </div>
       
       <div class="my-5">
-        <a href="https://smartsales.com" class="btn" @click.prevent="openApp"
-          >https://smartsales-test-app.herokuapp.com</a
-        >
+        <a href="https://smartsales-test-app.herokuapp.com" class="btn" @click.prevent="openApp">https://smartsales-test-app.herokuapp.com</a>
       </div>
     </div>
   </div>
@@ -57,8 +55,8 @@ export default {
 
   methods: {
     getAutoOpenUrl() {
-      let PARAMS = this.queryStringToDict();
-      let DEEP_LINK = PARAMS["deep_link"];
+      // let PARAMS = this.queryStringToDict();
+      // let DEEP_LINK = PARAMS["deep_link"];
 
       // var hash = DEEP_LINK ? DEEP_LINK : getHash();
       
