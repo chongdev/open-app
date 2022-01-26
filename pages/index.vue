@@ -32,6 +32,12 @@
           >https://smartsales.com</a
         >
       </div>
+      
+      <div class="my-5">
+        <a href="https://smartsales.com" class="btn" @click.prevent="openApp"
+          >https://smartsales-test-app.herokuapp.com</a
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -39,7 +45,9 @@
 <script>
 export default {
   name: "IndexPage",
-
+  created() {
+    this.getAutoOpenUrl();
+  },
   data() {
     return {
       isApple: false,
@@ -48,6 +56,41 @@ export default {
   },
 
   methods: {
+    getAutoOpenUrl() {
+      let PARAMS = this.queryStringToDict();
+      let DEEP_LINK = PARAMS["deep_link"];
+
+      // var hash = DEEP_LINK ? DEEP_LINK : getHash();
+      
+      // return 'smartsales://auth-sso';
+    },
+
+    openAndroid(url, isFromClick) {
+      var ua = navigator.userAgent;
+      // 1. New Chrome and MiuiBrowser: cannot open App URL in new window any more.
+      //    But they support graceful failure when app is not installed. So we can (and have to) safely do this.
+      if (
+        ua.match(/Chrome\/([4-9]\d+|\d{3,})/) ||
+        ua.indexOf("MiuiBrowser/") > 0
+      ) {
+        window.location = url;
+        optionalFallback(3000, isFromClick, 3000);
+        return;
+      }
+
+      // 2. Old chrome and Android Browser: can open app in new window, and don't fail gracefully,
+      //    So the following code avoids the non-graceful failure when app is not installed.
+      //    Note: This may not work if this function isn't triggered by user action and popup is blocked in browser.
+      var newWindow = window.open(url);
+
+      setTimeout(function () {
+        // Note: Must check newWindow availability because it could be null when opened from other apps such as FB or BeeTalk etc.
+        if (newWindow && newWindow.window) {
+          checkAndCloseWindow(newWindow);
+        }
+        optionalFallback(0, isFromClick, 3000);
+      }, getAndroidDelayTimeForCloseWindow(ua));
+    },
     openApp(evt) {
       let PARAMS = this.queryStringToDict();
       let DEEP_LINK = PARAMS["deep_link"];
@@ -56,14 +99,9 @@ export default {
 
       let url = evt.target.href;
 
-
-      if( hash ){
-
+      if (hash) {
       }
       console.log(url, hash);
-
-      // this.autoOpenUrl =
-
       location.replace(url);
       // if (this.isApple) {
 
