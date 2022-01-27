@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="inner">
+      <div>Code: {{code}}</div>
+      <div>isAndroid: {{isAndroid}}</div>
+
+      <br>
+
       <div class="my-5">
         <a href="smartsales://" @click.prevent="openApp" class="btn"
           >smartsales://</a
@@ -64,15 +69,27 @@ export default {
     return {
       isApple: false,
       autoOpenUrl: false,
+      code: '',
     };
   },
 
   methods: {
     getAutoOpenUrl() {
-      // let PARAMS = this.queryStringToDict();
-      // let DEEP_LINK = PARAMS["deep_link"];
-      // var hash = DEEP_LINK ? DEEP_LINK : getHash();
+      let PARAMS = this.queryStringToDict();
+      let DEEP_LINK = PARAMS["deep_link"];
+      var hash = DEEP_LINK ? DEEP_LINK : getHash();
+
+      // if( this.isAndroid() ){
+      //   let url = 'smartsales://success?code=1337';
+      //   window.location.href = url;
+      // }
+
+      this.code = this.$route.query.code;
       // return 'smartsales://auth-sso';
+    },
+
+    isAndroid() {
+      return navigator.userAgent.indexOf('Android') > 0;
     },
 
     openAndroid(url, isFromClick) {
