@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="inner">
-      <div>Code: {{code}}</div>
-      <div>isAndroid: {{isAndroid ? 1: 0}}</div>
+      <div>Code: {{ code }}</div>
+      <div>isAndroid: {{ isAndroid ? 1 : 0 }}</div>
 
-      <br>
+      <br />
 
       <!-- <div class="my-5">
         <a href="smartsales://" @click.prevent="openApp" class="btn"
@@ -48,11 +48,7 @@
       </div> -->
 
       <div class="my-5" v-if="url">
-        <a
-        ref="linkOpen"
-          :href="url"
-          class="btn"
-          @click.prevent="openApp"
+        <a ref="linkOpen" :href="url" class="btn" @click.prevent="openApp"
           >Open App</a
         >
       </div>
@@ -70,9 +66,16 @@ export default {
     return {
       isApple: false,
       autoOpenUrl: false,
-      code: '',
-      url: 'smartsales://',
+      code: "",
+      url: "smartsales://",
+      REDIR: '',
+      isAndroid: false,
     };
+  },
+
+  mounted(){
+
+    this.isAndroid = navigator.userAgent.indexOf("Android") > 0;
   },
 
   methods: {
@@ -82,27 +85,30 @@ export default {
       // var hash = DEEP_LINK ? DEEP_LINK : getHash();
 
       this.code = this.$route.query.code;
-      const REDIR = this.$route.query.redir;
+      this.REDIR = this.$route.query.redir;
 
-      if( this.code ){
+      console.log("redir", );
+
+      if (this.code) {
         this.url = `smartsales://auth-sso?code=${this.code}`;
-        // window.location.replace(this.url);
 
-        setTimeout(() => {
+        if( this.isAndroid ){
+          window.location.replace(this.url);
+        }
+        
 
-          if( REDIR ){
-            location.replace( REDIR );
-          }
-          // window.location = this.url;
-        }, 1200);
+        // if (this.REDIR) {
+        //   setTimeout(() => {
+        //     console.log("location.replace ==========>", this.REDIR);
+            
+        //     // window.location = this.url;
+        //   }, 800);
+
+        //   // location.replace( REDIR );
+        // }
       }
 
-      
       // return 'smartsales://auth-sso';
-    },
-
-    isAndroid() {
-      return navigator.userAgent.indexOf('Android') > 0;
     },
 
     openAndroid(url, isFromClick) {
@@ -140,7 +146,6 @@ export default {
       let url = evt.target.href;
 
       if (hash) {
-
       }
       // console.log(url, hash);
       // location.replace(url);
