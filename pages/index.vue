@@ -6,7 +6,7 @@
 
       <br>
 
-      <div class="my-5">
+      <!-- <div class="my-5">
         <a href="smartsales://" @click.prevent="openApp" class="btn"
           >smartsales://</a
         >
@@ -45,14 +45,14 @@
           @click.prevent="openApp"
           >https://smartsales.com?code=1234</a
         >
-      </div>
+      </div> -->
 
-      <div class="my-5">
+      <div class="my-5" v-if="url">
         <a
-          href="https://smartsales-test-app.herokuapp.com"
+          :href="url"
           class="btn"
           @click.prevent="openApp"
-          >https://smartsales-test-app.herokuapp.com</a
+          >Open App</a
         >
       </div>
     </div>
@@ -70,6 +70,7 @@ export default {
       isApple: false,
       autoOpenUrl: false,
       code: '',
+      url: '',
     };
   },
 
@@ -80,9 +81,10 @@ export default {
       // var hash = DEEP_LINK ? DEEP_LINK : getHash();
 
       this.code = this.$route.query.code;
-      if( this.isAndroid() && this.code ){
-        let url = `smartsales://success?code=${this.code}`;
-        location.replace(url);
+
+      if( this.code ){
+        this.url = `smartsales://auth-sso?code=${this.code}`;
+        // window.location.replace(this.url);
       }
 
       
