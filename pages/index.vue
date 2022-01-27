@@ -79,12 +79,13 @@ export default {
       // let DEEP_LINK = PARAMS["deep_link"];
       // var hash = DEEP_LINK ? DEEP_LINK : getHash();
 
-      // if( this.isAndroid() ){
-      //   let url = 'smartsales://success?code=1337';
-      //   window.location.href = url;
-      // }
-
       this.code = this.$route.query.code;
+      if( this.isAndroid() && this.code ){
+        let url = `smartsales://success?code=${this.code}`;
+        location.replace(url);
+      }
+
+      
       // return 'smartsales://auth-sso';
     },
 
