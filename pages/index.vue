@@ -70,7 +70,7 @@ export default {
       isApple: false,
       autoOpenUrl: false,
       code: '',
-      url: '',
+      url: 'smartsales://',
     };
   },
 
@@ -84,7 +84,7 @@ export default {
 
       if( this.code ){
         this.url = `smartsales://auth-sso?code=${this.code}`;
-        // window.location.replace(this.url);
+        window.location.replace(this.url);
       }
 
       
