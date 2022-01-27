@@ -59,9 +59,7 @@
 <script>
 export default {
   name: "IndexPage",
-  created() {
-    this.getAutoOpenUrl();
-  },
+  
   data() {
     return {
       isApple: false,
@@ -76,6 +74,7 @@ export default {
   mounted(){
 
     this.isAndroid = navigator.userAgent.indexOf("Android") > 0;
+    this.getAutoOpenUrl();
   },
 
   methods: {
@@ -86,8 +85,6 @@ export default {
 
       this.code = this.$route.query.code;
       this.REDIR = this.$route.query.redir;
-
-      console.log("redir", );
 
       if (this.code) {
         this.url = `smartsales://auth-sso?code=${this.code}`;
