@@ -82,12 +82,17 @@ export default {
       // var hash = DEEP_LINK ? DEEP_LINK : getHash();
 
       this.code = this.$route.query.code;
+      const REDIR = this.$route.query.redir;
 
       if( this.code ){
         this.url = `smartsales://auth-sso?code=${this.code}`;
         // window.location.replace(this.url);
 
         setTimeout(() => {
+
+          if( REDIR ){
+            location.replace( REDIR );
+          }
           // window.location = this.url;
         }, 1200);
       }
