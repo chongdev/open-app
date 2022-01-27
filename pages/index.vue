@@ -87,7 +87,9 @@ export default {
         this.url = `smartsales://auth-sso?code=${this.code}`;
         // window.location.replace(this.url);
 
-        window.location = this.url;
+        setTimeout(() => {
+          // window.location = this.url;
+        }, 1200);
       }
 
       
