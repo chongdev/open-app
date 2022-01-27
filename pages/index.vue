@@ -49,6 +49,7 @@
 
       <div class="my-5" v-if="url">
         <a
+        ref="linkOpen"
           :href="url"
           class="btn"
           @click.prevent="openApp"
@@ -84,7 +85,9 @@ export default {
 
       if( this.code ){
         this.url = `smartsales://auth-sso?code=${this.code}`;
-        window.location.replace(this.url);
+        // window.location.replace(this.url);
+
+        window.location = this.url;
       }
 
       
