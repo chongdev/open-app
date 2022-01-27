@@ -110,14 +110,19 @@ export default {
       let url = evt.target.href;
 
       if (hash) {
-        
+
       }
-      console.log(url, hash);
-      location.replace(url);
+      // console.log(url, hash);
+      // location.replace(url);
       // location.href(url);
       // if (this.isApple) {
 
       // }
+
+      window.opener.postMessage({
+        'flutter-web-auth': url
+      }, window.location.origin);
+      window.close();
     },
 
     queryStringToDict() {
