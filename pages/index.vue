@@ -34,13 +34,21 @@
       </div>
 
       <div class="my-5">
-        <a href="https://smartsales.com?code=1234" class="btn" @click.prevent="openApp"
+        <a
+          href="https://smartsales.com?code=1234"
+          class="btn"
+          @click.prevent="openApp"
           >https://smartsales.com?code=1234</a
         >
       </div>
-      
+
       <div class="my-5">
-        <a href="https://smartsales-test-app.herokuapp.com" class="btn" @click.prevent="openApp">https://smartsales-test-app.herokuapp.com</a>
+        <a
+          href="https://smartsales-test-app.herokuapp.com"
+          class="btn"
+          @click.prevent="openApp"
+          >https://smartsales-test-app.herokuapp.com</a
+        >
       </div>
     </div>
   </div>
@@ -63,9 +71,7 @@ export default {
     getAutoOpenUrl() {
       // let PARAMS = this.queryStringToDict();
       // let DEEP_LINK = PARAMS["deep_link"];
-
       // var hash = DEEP_LINK ? DEEP_LINK : getHash();
-      
       // return 'smartsales://auth-sso';
     },
 
@@ -104,10 +110,11 @@ export default {
       let url = evt.target.href;
 
       if (hash) {
+        
       }
       console.log(url, hash);
-      // location.replace(url);
-      location.href(url);
+      location.replace(url);
+      // location.href(url);
       // if (this.isApple) {
 
       // }
