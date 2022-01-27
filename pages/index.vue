@@ -106,7 +106,8 @@ export default {
       if (hash) {
       }
       console.log(url, hash);
-      location.replace(url);
+      // location.replace(url);
+      location.href(url);
       // if (this.isApple) {
 
       // }
