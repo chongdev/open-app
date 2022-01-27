@@ -8,8 +8,8 @@
     <div id="button"><a class="btn" href="smartsales.com://success?code=1337">Sign in</a></div>
 
 
-    <div class="my-5" id="text">https://smartsales.com?code=1337</div>
-    <div id="button"><a class="btn" href="https://smartsales.com?code=1337">Sign in</a></div>
+    <div class="my-5" id="text">https://smartsales-test-app.herokuapp.com?code=1337</div>
+    <div id="button"><a class="btn" href="https://smartsales-test-app.herokuapp.com?code=1337">Sign in</a></div>
   </div>
 </template>
 
