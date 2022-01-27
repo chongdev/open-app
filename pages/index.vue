@@ -114,15 +114,15 @@ export default {
       }
       // console.log(url, hash);
       // location.replace(url);
-      // location.href(url);
+      window.location.href = url;
       // if (this.isApple) {
 
       // }
 
-      window.opener.postMessage({
-        'flutter-web-auth': url
-      }, window.location.origin);
-      window.close();
+      // window.opener.postMessage({
+      //   'flutter-web-auth': window.location.href
+      // }, window.location.origin);
+      // window.close();
     },
 
     queryStringToDict() {
