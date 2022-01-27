@@ -2,7 +2,7 @@
   <div>
     <div class="inner">
       <div>Code: {{code}}</div>
-      <div>isAndroid: {{isAndroid}}</div>
+      <div>isAndroid: {{isAndroid ? 1: 0}}</div>
 
       <br>
 
@@ -75,9 +75,9 @@ export default {
 
   methods: {
     getAutoOpenUrl() {
-      let PARAMS = this.queryStringToDict();
-      let DEEP_LINK = PARAMS["deep_link"];
-      var hash = DEEP_LINK ? DEEP_LINK : getHash();
+      // let PARAMS = this.queryStringToDict();
+      // let DEEP_LINK = PARAMS["deep_link"];
+      // var hash = DEEP_LINK ? DEEP_LINK : getHash();
 
       // if( this.isAndroid() ){
       //   let url = 'smartsales://success?code=1337';
