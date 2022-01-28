@@ -44,7 +44,7 @@ export default {
       isAndroid: false,
       state: "state",
       baseUrl: "https://smartids-uat.cpf.co.th",
-      redirect_uri: "https://smartsales-test-app.herokuapp.com",
+      redirect_uri: "http://localhost:3000",
       client_id: "IOHI1TY1uFO_tmQ79eNjVA",
       SSOLoginUrl: "",
       token: "",
@@ -69,11 +69,11 @@ export default {
       this.REDIR = this.$route.query.redir;
 
       if (this.code) {
-        this.getToken();
+        // this.getToken();
         // this.url = `smartsales://auth-sso?code=${this.code}`;
 
         if (this.isAndroid) {
-          // window.location.replace(this.url);
+          window.location.replace(`smartsales://auth-sso?code=${this.code}`);
         }
 
         // if (this.REDIR) {
@@ -93,7 +93,7 @@ export default {
     getToken() {
       console.log("getToken....");
 
-      var data = `grant_type=authorization_code&code=${this.code}&redirect_uri=https://smartsales-test-app.herokuapp.com`;
+      var data = `grant_type=authorization_code&code=${this.code}&redirect_uri=${this.redirect_uri}`;
 
       var config = {
         method: "post",
@@ -110,7 +110,7 @@ export default {
         .then((response) => {
           console.log(JSON.stringify(response.data));
 
-          // console.log(response);
+          console.log(response);
           // let res = response.data;
 
           // this.token = res.access_token
