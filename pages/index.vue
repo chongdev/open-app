@@ -6,56 +6,15 @@
 
       <br />
 
-      <!-- <div class="my-5">
-        <a href="smartsales://" @click.prevent="openApp" class="btn"
-          >smartsales://</a
-        >
-      </div>
-      <div class="my-5">
-        <a href="smartsales://auth-sso" @click.prevent="openApp" class="btn"
-          >smartsales://auth-sso</a
-        >
-      </div>
-
-      <div class="my-5">
-        <a href="https://smartsales/" @click.prevent="openApp" class="btn"
-          >https://smartsales/</a
-        >
-      </div>
-
-      <div class="my-5">
-        <a
-          href="https://smartsales/auth-sso"
-          @click.prevent="openApp"
-          class="btn"
-          >https://smartsales/auth-sso</a
-        >
-      </div>
-
-      <div class="my-5">
-        <a href="https://smartsales.com" class="btn" @click.prevent="openApp"
-          >https://smartsales.com</a
-        >
-      </div>
-
-      <div class="my-5">
-        <a
-          href="https://smartsales.com?code=1234"
-          class="btn"
-          @click.prevent="openApp"
-          >https://smartsales.com?code=1234</a
-        >
-      </div> -->
-
-      <div class="my-5" v-if="url">
-        <a ref="linkOpen" :href="url" class="btn" @click.prevent="openApp"
+      <div class="my-5" v-if="deeplink">
+        <a ref="linkOpen" :href="deeplink" class="btn" @click.prevent="openApp"
           >Open App</a
         >
       </div>
 
 
-      <div class="my-5" v-if="url">
-        <a ref="linkOpen" :href="url" class="btn" @click.prevent="SSOLogin"
+      <div class="my-5" v-if="SSOLoginUrl">
+        <a ref="linkOpen" :href="SSOLoginUrl" class="btn" @click.prevent="SSOLogin"
           >SSO Login</a
         >
       </div>
@@ -79,13 +38,14 @@ export default {
       isApple: false,
       autoOpenUrl: false,
       code: "",
-      url: "smartsales://",
+      deeplink: "smartsales://",
       REDIR: '',
       isAndroid: false,
       state: 'state',
       baseUrl: 'https://smartids-uat.cpf.co.th',
       redirect_uri: 'https://smartsales-test-app.herokuapp.com',
       client_id: 'IOHI1TY1uFO_tmQ79eNjVA',
+      SSOLoginUrl: '',
     };
   },
 
@@ -93,6 +53,9 @@ export default {
 
     this.isAndroid = navigator.userAgent.indexOf("Android") > 0;
     this.getAutoOpenUrl();
+
+    // set SSOLogin
+    this.SSOLoginUrl = `${this.baseUrl}/ids-portal/authorize?response_type=code&client_id=${this.client_id}&redirect_uri=${this.redirect_uri}&scope=openid profile&state=${this.state}`;
   },
 
   methods: {
@@ -129,6 +92,8 @@ export default {
 
     getToken(){
 
+      console.log('getToken....');
+
 
       let config = {
         headers: {
@@ -137,13 +102,14 @@ export default {
         }
       }
 
-      this.axios.post(`${baseUrl}/ids-portal/token`, {
+      this.$axios.post(`${baseUrl}/ids-portal/token`, {
         grant_type: "authorization_code",
         code: this.code,
         redirect_uri: this.redirect_uri
       }, config).then(response=>{
         
         console.log(response);
+        let res = response.data;
 
       }).catch(err => {
         console.error(err)
@@ -219,8 +185,7 @@ export default {
     },
 
     SSOLogin(){
-      const url = `${this.baseUrl}/ids-portal/authorize?response_type=code&client_id=${this.client_id}&redirect_uri=${this.redirect_uri}&scope=openid profile&state=${this.state}`;
-      location.replace(url); 
+      location.replace(this.SSOLoginUrl); 
     }
   },
 };
