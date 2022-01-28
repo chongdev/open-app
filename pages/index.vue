@@ -102,7 +102,7 @@ export default {
         }
       }
 
-      this.$axios.post(`${baseUrl}/ids-portal/token`, {
+      this.$axios.post(`${this.baseUrl}/ids-portal/token`, {
         grant_type: "authorization_code",
         code: this.code,
         redirect_uri: this.redirect_uri
