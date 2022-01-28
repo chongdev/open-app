@@ -52,6 +52,18 @@
           >Open App</a
         >
       </div>
+
+
+      <div class="my-5" v-if="url">
+        <a ref="linkOpen" :href="url" class="btn" @click.prevent="SSOLogin"
+          >SSO Login</a
+        >
+      </div>
+
+
+      <div>
+
+      </div>
     </div>
   </div>
 </template>
@@ -59,7 +71,9 @@
 <script>
 export default {
   name: "IndexPage",
-  
+  created() {
+    
+  },
   data() {
     return {
       isApple: false,
@@ -68,6 +82,10 @@ export default {
       url: "smartsales://",
       REDIR: '',
       isAndroid: false,
+      state: 'state',
+      baseUrl: 'https://smartids-uat.cpf.co.th',
+      redirect_uri: 'https://smartsales-test-app.herokuapp.com',
+      client_id: 'IOHI1TY1uFO_tmQ79eNjVA',
     };
   },
 
@@ -87,12 +105,13 @@ export default {
       this.REDIR = this.$route.query.redir;
 
       if (this.code) {
-        this.url = `smartsales://auth-sso?code=${this.code}`;
+
+        this.getToken();
+        // this.url = `smartsales://auth-sso?code=${this.code}`;
 
         if( this.isAndroid ){
-          window.location.replace(this.url);
+          // window.location.replace(this.url);
         }
-        
 
         // if (this.REDIR) {
         //   setTimeout(() => {
@@ -106,6 +125,29 @@ export default {
       }
 
       // return 'smartsales://auth-sso';
+    },
+
+    getToken(){
+
+
+      let config = {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic SU9ISTFUWTF1Rk9fdG1RNzllTmpWQTppWEhXWFlYS084bTBoLV9sUmlHQmIzVFNBcy1MMEtncU54WVkxQ1U0aS1n',
+        }
+      }
+
+      this.axios.post(`${baseUrl}/ids-portal/token`, {
+        grant_type: "authorization_code",
+        code: this.code,
+        redirect_uri: this.redirect_uri
+      }, config).then(response=>{
+        
+        console.log(response);
+
+      }).catch(err => {
+        console.error(err)
+      })
     },
 
     openAndroid(url, isFromClick) {
@@ -175,6 +217,11 @@ export default {
         return hash.substr(1);
       }
     },
+
+    SSOLogin(){
+      const url = `${this.baseUrl}/ids-portal/authorize?response_type=code&client_id=${this.client_id}&redirect_uri=${this.redirect_uri}&scope=openid profile&state=${this.state}`;
+      location.replace(url); 
+    }
   },
 };
 </script>
