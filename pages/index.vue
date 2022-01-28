@@ -44,7 +44,7 @@ export default {
       isAndroid: false,
       state: "state",
       baseUrl: "https://smartids-uat.cpf.co.th",
-      redirect_uri: "http://localhost:3000",
+      redirect_uri: "https://smartsales-test-app.herokuapp.com",
       client_id: "IOHI1TY1uFO_tmQ79eNjVA",
       SSOLoginUrl: "",
       token: "",
