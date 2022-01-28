@@ -13,7 +13,6 @@
         >
       </div>
 
-
       <div class="my-5" v-if="SSOLoginUrl">
         <a :href="SSOLoginUrl" class="btn" @click.prevent="SSOLogin"
           >SSO Login</a
@@ -21,15 +20,12 @@
       </div>
 
       <div class="my-5" v-if="code">
-        <button type="button" class="btn" @click.prevent="getToken"
-          >get Token</button
-        >
+        <button type="button" class="btn" @click.prevent="getToken">
+          get Token
+        </button>
       </div>
 
-
-      <div>
-
-      </div>
+      <div></div>
     </div>
   </div>
 </template>
@@ -37,28 +33,25 @@
 <script>
 export default {
   name: "IndexPage",
-  created() {
-    
-  },
+  created() {},
   data() {
     return {
       isApple: false,
       autoOpenUrl: false,
       code: "",
       deeplink: "smartsales://",
-      REDIR: '',
+      REDIR: "",
       isAndroid: false,
-      state: 'state',
-      baseUrl: 'https://smartids-uat.cpf.co.th',
-      redirect_uri: 'https://smartsales-test-app.herokuapp.com',
-      client_id: 'IOHI1TY1uFO_tmQ79eNjVA',
-      SSOLoginUrl: '',
-      token: '',
+      state: "state",
+      baseUrl: "https://smartids-uat.cpf.co.th",
+      redirect_uri: "https://smartsales-test-app.herokuapp.com",
+      client_id: "IOHI1TY1uFO_tmQ79eNjVA",
+      SSOLoginUrl: "",
+      token: "",
     };
   },
 
-  mounted(){
-
+  mounted() {
     this.isAndroid = navigator.userAgent.indexOf("Android") > 0;
     this.getAutoOpenUrl();
 
@@ -76,18 +69,17 @@ export default {
       this.REDIR = this.$route.query.redir;
 
       if (this.code) {
-
         this.getToken();
         // this.url = `smartsales://auth-sso?code=${this.code}`;
 
-        if( this.isAndroid ){
+        if (this.isAndroid) {
           // window.location.replace(this.url);
         }
 
         // if (this.REDIR) {
         //   setTimeout(() => {
         //     console.log("location.replace ==========>", this.REDIR);
-            
+
         //     // window.location = this.url;
         //   }, 800);
 
@@ -98,32 +90,34 @@ export default {
       // return 'smartsales://auth-sso';
     },
 
-    getToken(){
+    getToken() {
+      console.log("getToken....");
 
-      console.log('getToken....');
+      var data = `grant_type=authorization_code&code=${this.code}&redirect_uri=https://smartsales-test-app.herokuapp.com`;
 
-
-      let config = {
+      var config = {
+        method: "post",
+        url: "https://smartids-uat.cpf.co.th/ids-portal/token",
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic SU9ISTFUWTF1Rk9fdG1RNzllTmpWQTppWEhXWFlYS084bTBoLV9sUmlHQmIzVFNBcy1MMEtncU54WVkxQ1U0aS1n',
-        }
-      }
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization:
+            "Basic SU9ISTFUWTF1Rk9fdG1RNzllTmpWQTppWEhXWFlYS084bTBoLV9sUmlHQmIzVFNBcy1MMEtncU54WVkxQ1U0aS1n",
+        },
+        data: data,
+      };
 
-      this.$axios.post(`${this.baseUrl}/ids-portal/token`, {
-        grant_type: "authorization_code",
-        code: this.code,
-        redirect_uri: this.redirect_uri
-      }, config).then(response=>{
-        
-        console.log(response);
-        let res = response.data;
+      this.$axios(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
 
-        this.token = res.access_token
+          // console.log(response);
+          // let res = response.data;
 
-      }).catch(err => {
-        console.error(err)
-      })
+          // this.token = res.access_token
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
 
     openAndroid(url, isFromClick) {
@@ -194,9 +188,31 @@ export default {
       }
     },
 
-    SSOLogin(){
-      location.replace(this.SSOLoginUrl); 
-    }
+    SSOLogin() {
+      location.replace(this.SSOLoginUrl);
+    },
+
+    getUser() {
+      let config = {
+        headers: {},
+      };
+
+      const instance = axios.create({
+        Authorization: `Bearer ${this.token}`,
+      });
+
+      this.$axios
+        .get(`${this.baseUrl}/ids-portal/userinfo`, {}, config)
+        .then((response) => {
+          console.log(response);
+          let res = response.data;
+
+          this.token = res.access_token;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
   },
 };
 </script>
