@@ -2,6 +2,7 @@
   <div>
     <div class="inner">
       <div>Code: {{ code }}</div>
+      <div>token: {{ token }}</div>
       <div>isAndroid: {{ isAndroid ? 1 : 0 }}</div>
 
       <br />
@@ -14,8 +15,14 @@
 
 
       <div class="my-5" v-if="SSOLoginUrl">
-        <a ref="linkOpen" :href="SSOLoginUrl" class="btn" @click.prevent="SSOLogin"
+        <a :href="SSOLoginUrl" class="btn" @click.prevent="SSOLogin"
           >SSO Login</a
+        >
+      </div>
+
+      <div class="my-5" v-if="code">
+        <button type="button" class="btn" @click.prevent="getToken"
+          >get Token</button
         >
       </div>
 
@@ -46,6 +53,7 @@ export default {
       redirect_uri: 'https://smartsales-test-app.herokuapp.com',
       client_id: 'IOHI1TY1uFO_tmQ79eNjVA',
       SSOLoginUrl: '',
+      token: '',
     };
   },
 
@@ -110,6 +118,8 @@ export default {
         
         console.log(response);
         let res = response.data;
+
+        this.token = res.access_token
 
       }).catch(err => {
         console.error(err)
